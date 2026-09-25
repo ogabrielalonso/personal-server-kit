@@ -1,0 +1,7 @@
+{
+  "language": "en",
+  "role": "device",
+  "server_address": "100.101.102.103",
+  "device_name": "alice-laptop",
+  "pair_code": "ABCD-2345"
+}

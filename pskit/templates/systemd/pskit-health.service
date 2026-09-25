@@ -1,0 +1,13 @@
+[Unit]
+Description=pskit health check and alert delivery
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart={{pskit}} health
+Nice=-5
+TimeoutStartSec=4min
+MemoryMax=256M
+PrivateTmp=yes
+NoNewPrivileges=yes

@@ -1,0 +1,9 @@
+[Unit]
+Description=pskit backup retry at {{backup_retry_time}}
+
+[Timer]
+OnCalendar=*-*-* {{backup_retry_time}}:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

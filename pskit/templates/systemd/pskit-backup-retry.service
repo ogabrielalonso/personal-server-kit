@@ -1,0 +1,16 @@
+[Unit]
+Description=pskit backup retry when the night run did not succeed
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart={{pskit}} backup run --if-stale-hours 18
+Slice={{backup_slice}}
+UMask=0077
+Nice=15
+IOSchedulingClass=idle
+MemoryHigh=2G
+MemoryMax=3G
+TimeoutStartSec=6h
+PrivateTmp=yes

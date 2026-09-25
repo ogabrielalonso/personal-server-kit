@@ -1,0 +1,22 @@
+{
+  "language": "en",
+  "role": "server",
+  "machine_name": "myserver",
+  "owner": "alice",
+  "timezone": "Europe/Berlin",
+  "confirm": true,
+  "tailscale": "interactive",
+  "tailscale_key_expiry_disabled": true,
+  "alert_channel": "ntfy",
+  "alert_test_received": true,
+  "heartbeat": false,
+  "backup_kind": "s3",
+  "backup_repository": "s3:https://s3.eu-central-003.backblazeb2.com/my-bucket/myserver",
+  "backup_password_saved": true,
+  "pairing": "wait",
+  "lockdown": "apply",
+  "keep_firewall_rules": true,
+  "modules": [],
+  "prove": "reboot",
+  "reboot_now": true
+}

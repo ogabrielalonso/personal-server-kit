@@ -1,0 +1,12 @@
+# Managed by pskit. Memory reservation for the brain layer, sized from the
+# brain's declared peak (host and brain contract, clause 3).
+[Unit]
+Description=pskit brain services
+Before=slices.target
+
+[Slice]
+MemoryAccounting=yes
+MemoryLow={{brain_low}}
+MemoryHigh={{brain_high}}
+MemoryMax={{brain_max}}
+MemorySwapMax={{swap_max}}

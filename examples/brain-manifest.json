@@ -1,0 +1,34 @@
+{
+  "manifest_version": 0,
+  "name": "example-brain",
+  "services": [
+    {
+      "name": "query",
+      "kind": "resident",
+      "description": "semantic search on loopback",
+      "command": ["/srv/myserver/brain/.venv/bin/python", "-m", "brain.serve", "--port", "8799"]
+    },
+    {
+      "name": "capture",
+      "kind": "scheduled",
+      "description": "read new sessions from the inbox",
+      "command": ["/srv/myserver/brain/.venv/bin/python", "-m", "brain.capture"],
+      "schedule": {"daily_at": ["05:00", "12:00"]},
+      "heavy_lock": true,
+      "timeout_minutes": 180
+    },
+    {
+      "name": "weekly",
+      "kind": "scheduled",
+      "command": ["/srv/myserver/brain/.venv/bin/python", "-m", "brain.weekly"],
+      "schedule": {"weekly": {"day": "sun", "at": "06:30"}},
+      "heavy_lock": true
+    }
+  ],
+  "health": {"url": "http://127.0.0.1:8799/health", "expect_status": "ok", "timeout_seconds": 5},
+  "backup": {"include": ["vault", "state"], "exclude": ["index", "models"]},
+  "peak_memory": {"resident_mib": 2048, "batch_mib": 3072},
+  "e2e_test": {"command": ["/srv/myserver/brain/.venv/bin/python", "-m", "brain.selftest"], "timeout_seconds": 300},
+  "session_inbox": "inbox/sessions",
+  "environment": {"BRAIN_LOG_LEVEL": "info"}
+}

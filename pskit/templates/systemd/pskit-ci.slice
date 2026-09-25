@@ -1,0 +1,13 @@
+# Managed by pskit (optional CI module). Runners attached with
+# `pskit ci attach <unit>` run here, one job at a time.
+[Unit]
+Description=pskit CI runners
+Before=slices.target
+
+[Slice]
+MemoryAccounting=yes
+MemoryHigh={{ci_high}}
+MemoryMax={{ci_max}}
+MemorySwapMax={{swap_max}}
+CPUWeight=50
+IOWeight=50

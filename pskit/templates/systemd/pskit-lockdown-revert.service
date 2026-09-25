@@ -1,0 +1,6 @@
+[Unit]
+Description=pskit lockdown safety net (reverts access changes nobody confirmed)
+
+[Service]
+Type=oneshot
+ExecStart={{pskit}} lockdown-revert --timer

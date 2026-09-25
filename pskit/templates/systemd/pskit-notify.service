@@ -1,0 +1,12 @@
+[Unit]
+Description=pskit alert delivery
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart={{pskit}} notify-deliver
+TimeoutStartSec=2min
+MemoryMax=128M
+PrivateTmp=yes
+NoNewPrivileges=yes

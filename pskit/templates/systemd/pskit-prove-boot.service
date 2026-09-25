@@ -1,0 +1,16 @@
+# Final proof, second half: runs once after the proof reboot and reports
+# whether everything came back on its own.
+[Unit]
+Description=pskit post-reboot proof
+After=network-online.target tailscaled.service ssh.socket
+Wants=network-online.target
+ConditionPathExists={{proof_pending}}
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/sleep 60
+ExecStart={{pskit}} prove-boot
+TimeoutStartSec=15min
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,30 @@
+# Managed by pskit from the brain manifest ({{manifest_name}}). Do not edit:
+# change the manifest and run `pskit brain apply`.
+[Unit]
+Description=brain: {{description}}
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type={{service_type}}
+User={{brain_user}}
+Group={{brain_group}}
+Slice={{brain_slice}}
+WorkingDirectory={{brain_home}}
+Environment=PSKIT_HOST_CONFIG={{host_config}}
+Environment=BRAIN_HOME={{brain_home}}
+{{environment_block}}
+ExecStart={{exec_line}}
+{{restart_block}}
+TimeoutStartSec={{timeout}}
+UMask=0027
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths={{brain_home}}
+ReadWritePaths=-{{spool}}
+ReadWritePaths=-{{run_dir}}
+
+[Install]
+WantedBy={{wanted_by}}

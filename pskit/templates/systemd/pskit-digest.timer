@@ -1,0 +1,9 @@
+[Unit]
+Description=pskit daily summary at {{digest_time}}
+
+[Timer]
+OnCalendar=*-*-* {{digest_time}}:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

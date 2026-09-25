@@ -1,0 +1,8 @@
+[Unit]
+Description=pskit reaper (forgotten headless browsers and idle dev servers)
+
+[Service]
+Type=oneshot
+ExecStart={{pskit}} reaper
+TimeoutStartSec=2min
+MemoryMax=128M

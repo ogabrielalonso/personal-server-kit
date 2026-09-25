@@ -1,0 +1,9 @@
+# Managed by pskit from the brain manifest ({{manifest_name}}).
+[Unit]
+Description=brain schedule: {{description}}
+
+[Timer]
+{{schedule_block}}
+
+[Install]
+WantedBy=timers.target

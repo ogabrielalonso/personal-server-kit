@@ -1,0 +1,10 @@
+# Managed by pskit. Parent of the brain and CI slices: protects the brain's
+# working set and caps both together.
+[Unit]
+Description=pskit background work (brain and CI)
+Before=slices.target
+
+[Slice]
+MemoryAccounting=yes
+MemoryLow={{parent_low}}
+MemoryMax={{parent_max}}

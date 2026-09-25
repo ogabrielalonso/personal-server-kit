@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.venv/
+.ruff_cache/
+.mypy_cache/
+dist/
+build/
+*.egg-info/
+# Diagnostic files and answers may contain machine details.
+pskit-diagnostic-*.json
+answers.local.json

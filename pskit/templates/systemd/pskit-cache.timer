@@ -1,0 +1,9 @@
+[Unit]
+Description=pskit cache maintenance daily at {{cache_time}}
+
+[Timer]
+OnCalendar=*-*-* {{cache_time}}:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

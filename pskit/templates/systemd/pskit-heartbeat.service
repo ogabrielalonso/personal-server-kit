@@ -1,0 +1,12 @@
+[Unit]
+Description=pskit heartbeat to the external watcher
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart={{pskit}} heartbeat
+TimeoutStartSec=1min
+MemoryMax=64M
+PrivateTmp=yes
+NoNewPrivileges=yes

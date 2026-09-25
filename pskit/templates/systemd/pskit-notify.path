@@ -1,0 +1,11 @@
+[Unit]
+Description=Deliver pskit alerts as soon as one is queued
+
+[Path]
+DirectoryNotEmpty={{spool}}
+MakeDirectory=no
+TriggerLimitIntervalSec=60
+TriggerLimitBurst=30
+
+[Install]
+WantedBy=paths.target

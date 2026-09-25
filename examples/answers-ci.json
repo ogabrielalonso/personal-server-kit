@@ -1,0 +1,21 @@
+{
+  "language": "en",
+  "role": "server",
+  "machine_name": "ci-box",
+  "owner": "runner",
+  "timezone": "UTC",
+  "confirm": true,
+  "existing": "resume",
+  "test_mode": true,
+  "tailscale": "skip",
+  "alert_channel": "none",
+  "heartbeat": false,
+  "backup_kind": "local",
+  "backup_repository": "/var/backups/pskit-e2e",
+  "backup_password_saved": true,
+  "pairing": "skip",
+  "lockdown": "test-local",
+  "keep_firewall_rules": true,
+  "modules": ["ci"],
+  "prove": "no-reboot"
+}

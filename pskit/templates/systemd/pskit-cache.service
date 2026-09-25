@@ -1,0 +1,17 @@
+[Unit]
+Description=pskit conservative package cache maintenance (never sessions or projects)
+After=local-fs.target
+
+[Service]
+Type=oneshot
+User={{owner}}
+Group={{owner_group}}
+Environment=HOME={{owner_home}}
+WorkingDirectory=/
+ExecStart={{pskit}} cache-maint
+UMask=0077
+NoNewPrivileges=yes
+Nice=15
+IOSchedulingClass=idle
+MemoryMax=768M
+TimeoutStartSec=15min

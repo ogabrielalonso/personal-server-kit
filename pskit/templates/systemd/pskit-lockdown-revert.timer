@@ -1,0 +1,14 @@
+# Armed while a lockdown waits for confirmation from the owner's laptop.
+# Counts from arming, never from boot: a boot-relative trigger is already in the
+# past on a server that has been up for a while, and systemd would fire at once.
+# The timer is enabled, so after a reboot it starts again and the same countdown
+# runs from boot: an unconfirmed lockdown can never survive.
+[Unit]
+Description=pskit lockdown safety net timer
+
+[Timer]
+OnActiveSec={{revert_seconds}}s
+AccuracySec=5s
+
+[Install]
+WantedBy=timers.target

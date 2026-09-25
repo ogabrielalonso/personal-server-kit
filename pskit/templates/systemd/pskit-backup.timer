@@ -1,0 +1,10 @@
+[Unit]
+Description=pskit backup daily at {{backup_time}}
+
+[Timer]
+OnCalendar=*-*-* {{backup_time}}:00
+RandomizedDelaySec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

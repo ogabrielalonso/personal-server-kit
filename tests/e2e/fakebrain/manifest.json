@@ -1,0 +1,17 @@
+{
+  "manifest_version": 0,
+  "name": "fake-brain",
+  "services": [
+    {"name": "query", "kind": "resident", "description": "fake query service",
+     "command": ["/usr/bin/python3", "/srv/ci-box/brain/app/serve.py"]},
+    {"name": "capture", "kind": "scheduled", "description": "fake capture",
+     "command": ["/usr/bin/python3", "/srv/ci-box/brain/app/capture.py"],
+     "schedule": {"every_minutes": 15}, "heavy_lock": true, "timeout_minutes": 5}
+  ],
+  "health": {"url": "http://127.0.0.1:8799/health", "expect_status": "ok", "timeout_seconds": 3},
+  "backup": {"include": ["state", "inbox"], "exclude": ["cache"]},
+  "peak_memory": {"resident_mib": 256, "batch_mib": 512},
+  "e2e_test": {"command": ["/usr/bin/python3", "/srv/ci-box/brain/app/selftest.py"], "timeout_seconds": 60},
+  "session_inbox": "inbox/sessions",
+  "environment": {"FAKEBRAIN_PORT": "8799"}
+}

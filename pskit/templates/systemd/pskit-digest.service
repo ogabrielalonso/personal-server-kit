@@ -1,0 +1,12 @@
+[Unit]
+Description=pskit daily summary
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart={{pskit}} digest
+TimeoutStartSec=5min
+MemoryMax=256M
+PrivateTmp=yes
+NoNewPrivileges=yes

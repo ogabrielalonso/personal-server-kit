@@ -1,0 +1,15 @@
+[Unit]
+Description=pskit restore proof (sample files restored and compared by hash)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart={{pskit}} backup restore-test
+Slice={{backup_slice}}
+UMask=0077
+Nice=15
+IOSchedulingClass=idle
+MemoryMax=2G
+TimeoutStartSec=4h
+PrivateTmp=yes

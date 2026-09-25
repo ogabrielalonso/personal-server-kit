@@ -1,0 +1,16 @@
+# Server-born agent sessions go to the same inbox as the laptop's: the brain
+# reads one place and never reaches into anyone's home.
+[Unit]
+Description=pskit session delivery for this server's own agent sessions
+
+[Service]
+Type=oneshot
+User={{owner}}
+Group={{brain_group}}
+Environment=HOME={{owner_home}}
+ExecStart={{pskit}} bridge-local
+UMask=0027
+Nice=15
+IOSchedulingClass=idle
+MemoryMax=512M
+TimeoutStartSec=30min

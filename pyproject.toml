@@ -1,0 +1,53 @@
+[project]
+name = "personal-server-kit"
+dynamic = ["version"]
+description = "Turn an always-on machine into a personal 24x7 server for AI work sessions, with a reserved place for a second brain."
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [{ name = "Gabriel Alonso" }]
+license = { text = "PolyForm-Noncommercial-1.0.0" }
+dependencies = []
+
+[project.scripts]
+pskit = "pskit.__main__:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["pskit", "pskit.linux", "pskit.device", "pskit.server", "pskit.runtime"]
+
+[tool.setuptools.package-data]
+pskit = ["locales/*.json", "templates/systemd/*", "templates/misc/*"]
+
+[tool.setuptools.dynamic]
+version = { attr = "pskit.VERSION" }
+
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "B", "UP", "S", "SIM", "RUF"]
+ignore = [
+  "S603", # subprocess without shell: every call passes an argument list, never a shell string
+  "S607", # partial executable paths: system tools resolved by PATH on purpose (apt, systemctl, launchctl)
+  "S108", # /tmp paths: only in templates and tests
+  "UP006", "UP007", "UP035", "UP045", # typing.List/Optional kept for Python 3.9 compatibility at runtime
+  "RUF001", "RUF002", "RUF003", # ambiguous unicode: Portuguese text
+  "SIM105", "SIM108", "SIM102",
+  "B904",
+  "RUF005", # list concatenation reads better than unpacking in command lines
+  "S110", "S112",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "S105", "S106", "B011", "RUF012"]
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+check_untyped_defs = true
+warn_unused_ignores = false
+no_implicit_optional = true

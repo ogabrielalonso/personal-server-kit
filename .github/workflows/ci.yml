@@ -1,0 +1,88 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      macos:
+        description: "Also run the unit tests on macOS"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.12"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - name: unit tests
+        run: python -B -m unittest discover -s tests -t . -v
+
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - name: tools
+        run: python -m pip install --quiet ruff==0.12.11 mypy==1.18.2
+      - name: ruff
+        run: ruff check pskit tests
+      - name: mypy
+        run: mypy pskit
+      - name: shellcheck
+        run: shellcheck -x install.sh tests/e2e/run.sh
+      - name: no dash punctuation in text files
+        run: |
+          if grep -rnP '[\x{2013}\x{2014}]' --include='*.md' --include='*.py' --include='*.json' --include='*.sh' . ; then
+            echo "en or em dash found"; exit 1
+          fi
+
+  e2e:
+    needs: [unit, lint]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: end-to-end install on a throwaway VM
+        env:
+          PSKIT_E2E_CONFIRM: throwaway-vm
+        run: tests/e2e/run.sh
+      - name: collect diagnostics
+        if: failure()
+        run: |
+          sudo PYTHONPATH="$PWD" python3 -m pskit doctor --bundle || true
+          mkdir -p diag
+          cp "$HOME"/pskit-diagnostic-*.json diag/ 2>/dev/null || true
+          sudo journalctl --no-pager -n 500 -u 'pskit-*' > diag/journal.txt || true
+          sudo chown -R "$(id -u)" diag
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: e2e-diagnostics
+          path: diag/
+          retention-days: 7
+
+  macos-unit:
+    if: github.event_name == 'workflow_dispatch' && inputs.macos
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: unit tests with the system Python
+        run: /usr/bin/python3 -B -m unittest discover -s tests -t . -v

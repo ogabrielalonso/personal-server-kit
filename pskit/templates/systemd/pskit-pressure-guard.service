@@ -1,0 +1,22 @@
+# Reversible pressure guard:
+# when the machine stops responding under pressure, brain and CI slices are
+# frozen, never killed, and thawed as soon as it recovers.
+[Unit]
+Description=pskit reversible pressure guard
+After=local-fs.target
+
+[Service]
+Type=simple
+ExecStart={{pskit}} pressure-guard
+Restart=always
+RestartSec=5s
+CPUWeight=10000
+IOWeight=10000
+MemoryMin=64M
+MemoryMax=256M
+OOMScoreAdjust=-950
+PrivateTmp=yes
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target
